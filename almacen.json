@@ -1,0 +1,83 @@
+{
+  "eventos": [
+    {
+      "id": "4b26",
+      "nombre": "Campeonato Ajedrez",
+      "lugar": "Sede Maipu",
+      "cupos": 23,
+      "fecha": "2024-12-05",
+      "anfitrion": "Yo",
+      "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo, impedit enim repellendus similique corporis incidunt, perferendis quasi minus nobis possimus minima, illo labore quis tenetur iste sequi placeat voluptate ullam.",
+      "asistentes": [
+        {
+          "username": "user1234",
+          "estado": "registrado"
+        }
+      ],
+      "comentarios": []
+    },
+    {
+      "id": "126b",
+      "nombre": "Pelea Robots",
+      "lugar": "Sede Quilicura",
+      "cupos": 250,
+      "fecha": "2024-12-14",
+      "anfitrion": "DUOC",
+      "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo, impedit enim repellendus similique corporis incidunt, perferendis quasi minus nobis possimus minima, illo labore quis tenetur iste sequi placeat voluptate ullam.",
+      "asistentes": [],
+      "comentarios": []
+    },
+    {
+      "id": "3de9",
+      "nombre": "Charla Salud Mental",
+      "lugar": "Anfiteatro",
+      "cupos": 250,
+      "fecha": "2024-12-14",
+      "anfitrion": "SSAAAS",
+      "descripcion": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo, impedit enim repellendus similique corporis incidunt, perferendis quasi minus nobis possimus minima, illo labore quis tenetur iste sequi placeat voluptate ullam.",
+      "asistentes": [
+        {
+          "username": "user1212"
+        }
+      ],
+      "comentarios": [
+        {
+          "comentario": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo, impedit enim repellendus similique.",
+          "user": "user1212"
+        }
+      ]
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "username": "user1234",
+      "email": "kkroto1221@gmail.com",
+      "pnombre": "usuario",
+      "rut": 1212123,
+      "apellido": "don",
+      "carrera": "Ing en informatica",
+      "password": "scrypt$16384$8$1$3c036786c9986edf7896b6282b0f09bf$1ddafa6b9b58d379bf2e27e5595132e5f513a881bb3d37434160a4c521f7b2409477e7189f963286d4c60c4806e9ec71f802d82b9274cf6848c1b9c845ca1b56",
+      "isactive": true,
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "role": "user"
+    },
+    {
+      "id": "64af",
+      "rut": 20111221,
+      "username": "user1212",
+      "email": "user@user.cl",
+      "pnombre": "Esteban",
+      "apellido": "Ibarra",
+      "carrera": "Turismo",
+      "password": "scrypt$16384$8$1$aac2c0aaa7ef24805fd3c4e29e0860cc$83f2414723d8cb42a70e0b4a5168b89b64ec006a96116fae516efdfeeeaeea3086a7803306467c69f2d75dcbee59a9e75b99f3ffcd1cac3a923d8395413cced3",
+      "isactive": true,
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "role": "user"
+    }
+  ],
+  "QR": [],
+  "sessions": []
+}
