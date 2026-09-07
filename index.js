@@ -67,7 +67,8 @@ server.use((req, res, next) => {
 });
 
 server.get('/health', (_req, res) => {
-  res.status(200).json({ status: 'ok' });
+  const mailConfigured = Boolean(process.env.SMTP_USER && process.env.SMTP_PASS);
+  res.status(200).json({ status: 'ok', mailConfigured });
 });
 
 server.use(cors({
