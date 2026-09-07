@@ -4,6 +4,7 @@ const cors = require('cors');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 const { promisify } = require('util');
 
 const scryptAsync = promisify(crypto.scrypt);
@@ -32,6 +33,7 @@ const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 horas
 const RESET_TOKEN_DURATION_MS = 15 * 60 * 1000; // 15 minutos
 const PASSWORD_MIN_LENGTH = 8;
 const MAX_BODY_STRING = 4000;
+const MAX_EVENT_IMAGE_CHARS = 900000;
 
 const defaultOrigins = [
   'http://localhost:4200',
@@ -79,7 +81,8 @@ server.use(cors({
   maxAge: 600,
 }));
 
-server.use(jsonServer.bodyParser);
+server.use(bodyParser.json({ limit: '2mb' }));
+server.use(bodyParser.urlencoded({ extended: false, limit: '2mb' }));
 
 // Defensa CSRF para la cookie HttpOnly: los cambios de estado solo se aceptan
 // desde orígenes explícitamente autorizados.
@@ -107,6 +110,13 @@ function normalizeString(value, max = 255) {
 
 function normalizeEmail(value) {
   return normalizeString(value, 254).toLowerCase();
+}
+
+function normalizeImageDataUrl(value) {
+  if (value === undefined || value === null || value === '') return '';
+  if (typeof value !== 'string' || value.length > MAX_EVENT_IMAGE_CHARS) return null;
+  const dataUrlPattern = /^data:image\/(?:jpeg|jpg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+  return dataUrlPattern.test(value) ? value : null;
 }
 
 function isValidEmail(value) {
@@ -602,6 +612,11 @@ server.post('/eventos', (req, res) => {
   const descripcion = normalizeString(req.body?.descripcion, MAX_BODY_STRING);
   const fecha = normalizeString(req.body?.fecha, 30);
   const cupos = Number(req.body?.cupos);
+  const portada = normalizeImageDataUrl(req.body?.portada);
+
+  if (portada === null) {
+    return res.status(400).json({ message: 'Portada inválida o demasiado grande.' });
+  }
 
   if (!nombre || !lugar || !anfitrion || descripcion.length < 20 || !fecha || !Number.isInteger(cupos) || cupos < 1 || cupos > 100000) {
     return res.status(400).json({ message: 'Datos del evento inválidos.' });
@@ -615,6 +630,7 @@ server.post('/eventos', (req, res) => {
     fecha,
     anfitrion,
     descripcion,
+    portada,
     asistentes: [],
     comentarios: [],
     createdBy: req.user.id,
@@ -635,6 +651,11 @@ server.put('/eventos/:id', (req, res) => {
   const descripcion = normalizeString(req.body?.descripcion, MAX_BODY_STRING);
   const fecha = normalizeString(req.body?.fecha, 30);
   const cupos = Number(req.body?.cupos);
+  const portada = normalizeImageDataUrl(req.body?.portada);
+
+  if (portada === null) {
+    return res.status(400).json({ message: 'Portada inválida o demasiado grande.' });
+  }
 
   if (!nombre || !lugar || !anfitrion || descripcion.length < 20 || !fecha || !Number.isInteger(cupos) || cupos < 1 || cupos > 100000) {
     return res.status(400).json({ message: 'Datos del evento inválidos.' });
@@ -647,6 +668,7 @@ server.put('/eventos/:id', (req, res) => {
     descripcion,
     fecha,
     cupos,
+    portada,
     updatedAt: new Date().toISOString(),
   }).write();
 
