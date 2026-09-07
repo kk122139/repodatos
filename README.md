@@ -46,9 +46,7 @@ Variables importantes:
 
 ## Muy importante: credencial de Gmail expuesta
 
-La versión anterior tenía una contraseña de aplicación Gmail dentro de `index.js`. Debes revocarla desde la cuenta Google y generar una nueva. No basta con borrarla del archivo, porque pudo quedar en el historial de Git.
-
-Nunca subas la nueva contraseña al repositorio. Configúrala únicamente como `SMTP_PASS` en Render.
+La versión anterior tenía una contraseña de aplicación Gmail dentro de `index.js`. 
 
 ## Endpoints usados por el frontend corregido
 
@@ -68,20 +66,3 @@ Nunca subas la nueva contraseña al repositorio. Configúrala únicamente como `
 - `POST /QR/issue`
 - `POST /QR/validate`
 
-## Roles
-
-Las cuentas nuevas se crean con `role: "user"`. El cliente nunca puede enviar un rol. Para promover una cuenta existente puedes definir temporalmente:
-
-```text
-BOOTSTRAP_ADMIN_USERNAME=nombre_del_usuario
-```
-
-y reiniciar el servicio. Después puedes quitar esa variable.
-
-Actualmente, para conservar el comportamiento de tu aplicación existente, cualquier usuario autenticado y activo puede crear/modificar/eliminar eventos y validar QR. Si quieres separar estrictamente administrador/usuario, cambia las rutas de escritura para usar `requireAdmin`.
-
-## Limitación importante de almacenamiento
-
-`json-server` + `almacen.json` es adecuado para una demostración/prototipo, pero no es una base de datos de producción. En Render, el sistema de archivos del servicio puede ser efímero y además no ofrece transacciones ni un modelo robusto de concurrencia.
-
-Para una versión real del proyecto, el siguiente paso debería ser mover usuarios, sesiones, eventos y QR a PostgreSQL u otra base de datos y usar un backend Express/Fastify/Nest dedicado.
